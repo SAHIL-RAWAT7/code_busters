@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Decentralized Payroll</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #1e3c72);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      color: #1e1e1e;
+    }
+
+    .fade {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .fade.show {
+      opacity: 1;
+    }
+
+    /* Loader */
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .spinner {
+      border: 6px solid #e0e0e0;
+      border-top: 6px solid #1e3c72;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    /* Main container */
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      padding: 45px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 550px;
+      margin-top: 140px;
+      text-align: center;
+      transition: all 0.5s ease;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 700;
+      color: #1e3c72;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      background: linear-gradient(90deg, #1e3c72, #395aa3);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(30, 60, 114, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #395aa3, #1e3c72);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding: 15px 0;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .footer.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin-top: 100px;
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .button {
+        padding: 10px 22px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader fade show" id="loader">
+    <div class="spinner"></div>
+    <div class="loader-text">Please wait, your page is loading...</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="container fade" id="content">
+    <h1>Welcome to Decentralized Payroll</h1>
+    <p>Experience a modern, secure, and transparent way to manage payroll with blockchain technology. Empowering businesses and employees alike!</p>
+    <div class="buttons">
+      <button class="button" onclick="window.location.href='login.html'">Get Started</button>
+      <a href="learnmore.html"><button class="button">Learn More</button></a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer fade" id="footer">
+    &copy; 2025 Decentralized Payroll System. All rights reserved.
+  </div>
+
+  <script>
+    window.onload = function () {
+      setTimeout(() => {
+        document.getElementById('loader').classList.remove('show');
+        document.getElementById('loader').style.opacity = 0;
+
+        document.getElementById('content').classList.add('show');
+        document.getElementById('footer').classList.add('show');
+      }, 1000);
+    };
+  </script>
+</body>
+</html>

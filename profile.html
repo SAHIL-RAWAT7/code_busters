@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ethereum Transaction History</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #1e3c72);
+      color: #1e3c72;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .centered-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .header p {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #1e3c72, #395aa3);
+      padding: 14px 36px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #395aa3, #1e3c72);
+      transform: translateY(-2px);
+    }
+
+    .loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #1e3c72;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1.5s linear infinite;
+  display: none;
+  z-index: 9999;
+}
+
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .transaction-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .transaction-list {
+      width: 90%;
+      max-width: 900px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      max-height: 75vh;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .transaction-list h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .transaction-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .transaction-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .transaction-item p {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    .transaction-item a {
+      color: #1e3c72;
+      text-decoration: none;
+    }
+
+    .transaction-item a:hover {
+      text-decoration: underline;
+    }
+
+    .transaction-list::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .transaction-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Welcome Section -->
+  <div class="centered-container hidden" id="welcome-section">
+    <div class="header">
+      <h1>Ethereum Transaction History</h1>
+      <p>View your on-chain Ethereum transactions</p>
+      <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div class="loader" id="loader"></div>
+
+  <!-- Transaction List Section -->
+  <div class="transaction-wrapper">
+    <div id="transaction-history" class="transaction-list">
+      <h3>Your Transactions</h3>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const loader = document.getElementById("loader");
+      const welcome = document.getElementById("welcome-section");
+
+      loader.style.display = "block";
+      welcome.classList.add("hidden");
+
+      setTimeout(() => {
+        loader.style.display = "none";
+        welcome.classList.remove("hidden");
+      }, 1500); // Delay before showing welcome section
+    };
+
+    let account = "0xDummyAccount1234567890abcdef";
+
+    function connectWallet() {
+      alert("Dummy Wallet Connected: " + account);
+      document.getElementById("welcome-section").classList.add("hidden");
+      document.getElementById("loader").style.display = "block";
+
+      setTimeout(fetchDummyTransactions, 1500);
+    }
+
+    function fetchDummyTransactions() {
+      const transactions = Array.from({ length: 8 }, (_, i) => ({
+        hash: `0xhash${i + 1}abcdef1234567890abcdef12345678`,
+        from: account,
+        to: `0xReceiverAddress${i + 1}`,
+        value: (Math.random() * 2).toFixed(3),
+        gasUsed: 21000 + i * 100,
+        gasPrice: `${40 + i} Gwei`,
+        status: i % 2 === 0 ? "Success" : "Pending",
+        blockNumber: 12345670 + i,
+        timestamp: Date.now() - (i + 1) * 86400000
+      }));
+
+      const history = document.getElementById('transaction-history');
+      history.innerHTML = "<h3>Your Transactions</h3>";
+
+      transactions.forEach(tx => {
+        const item = document.createElement('div');
+        item.classList.add('transaction-item');
+        item.innerHTML = `
+          <p><strong>Hash:</strong> <a href="https://etherscan.io/tx/${tx.hash}" target="_blank">${tx.hash}</a></p>
+          <p><strong>From:</strong> ${tx.from}</p>
+          <p><strong>To:</strong> ${tx.to}</p>
+          <p><strong>Amount:</strong> ${tx.value} ETH</p>
+          <p><strong>Gas Used:</strong> ${tx.gasUsed}</p>
+          <p><strong>Gas Price:</strong> ${tx.gasPrice}</p>
+          <p><strong>Status:</strong> ${tx.status}</p>
+          <p><strong>Block:</strong> ${tx.blockNumber}</p>
+          <p><strong>Time:</strong> ${new Date(tx.timestamp).toLocaleString()}</p>
+        `;
+        history.appendChild(item);
+      });
+
+      document.getElementById("loader").style.display = "none";
+      history.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

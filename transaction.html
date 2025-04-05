@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Transaction Details</h2>
+        <form id="transactionForm">
+            <input type="text" id="wallet" placeholder="Enter Wallet Address" required>
+            <input type="number" id="amount" placeholder="Enter Amount" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("transactionForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const wallet = document.getElementById("wallet").value;
+            const amount = document.getElementById("amount").value;
+
+            // Redirect to confirmation page with transaction details
+            const url = `complete.html?wallet=${wallet}&amount=${amount}`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>

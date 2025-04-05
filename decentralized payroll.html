@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Decentralized Payroll System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #1e3c72);
+      margin: 0;
+      padding: 0;
+      color: #1e3c72;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .loader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 6px solid #e0e0e0;
+      border-top: 6px solid #1e3c72;
+      border-radius: 50%;
+      animation: spin 1.5s linear infinite;
+    }
+
+    .loader-text {
+      margin-top: 10px;
+      font-weight: 500;
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .header {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .header h1 {
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      padding: 0 20px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      transform: scale(1.05);
+    }
+
+    .interactive-section {
+      display: none;
+      margin: 40px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      text-align: center;
+    }
+
+    input {
+      width: 80%;
+      max-width: 400px;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      backdrop-filter: blur(6px);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+      background: linear-gradient(135deg, #ffffff, #1e3c72);
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #82e0ff, #3f51b5);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    #send-transaction-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    <div class="loader-text">Initializing Decentralized Magic...</div>
+  </div>
+
+  <div class="header hidden" id="main-content">
+    <h1>Decentralized Payroll System</h1>
+    <p>A blockchain-based payroll system ensuring transparency, security, and automation.</p>
+  </div>
+
+  <div class="features hidden">
+    <div class="feature-card" onclick="showFeature('secure-transactions')">
+      <h2>Secure Transactions</h2>
+      <p>All payroll transactions are secured with blockchain encryption.</p>
+    </div>
+    <div class="feature-card" onclick="showFeature('automated-payments')">
+      <h2>Automated Payments</h2>
+      <p>Ensure timely and accurate payroll processing with smart contracts.</p>
+    </div>
+    <div class="feature-card" onclick="showFeature('secure-payroll')">
+      <h2>Secure Payroll</h2>
+      <p>Enhanced security measures for payroll processing and employee data.</p>
+    </div>
+    <div class="feature-card" onclick="showFeature('salary-slip')">
+      <h2>Salary Slip</h2>
+      <p>Generate and download salary slips for employees.</p>
+    </div>
+  </div>
+
+  <div id="secure-transactions" class="interactive-section hidden">
+    <h2>Blockchain Hash Generator</h2>
+    <input type="text" id="user-name" placeholder="Enter your name">
+    <button onclick="generateHash()">Generate Hash</button>
+    <p id="hash-output"></p>
+  </div>
+
+  <div id="automated-payments" class="interactive-section hidden">
+    <h2>Smart Contract Simulation</h2>
+    <button onclick="simulatePayment()">Process Payroll</button>
+    <p id="payment-output"></p>
+  </div>
+
+  <div id="secure-payroll" class="interactive-section hidden">
+    <h2>Blockchain Transactions</h2>
+    <input type="text" id="receiver-address" placeholder="Enter Receiver's Address" />
+    <input type="number" id="amount-input" placeholder="Enter amount in ETH" />
+    <button onclick="connectWallet()" id="connect-wallet-btn">Connect Wallet</button>
+    <button onclick="addTransaction()" id="send-transaction-btn" disabled>Send Transaction</button>
+    <button onclick="window.location.href='profile.html'">Go to Transaction Page</button>
+    <p id="blockchain-output">No transactions yet.</p>
+  </div>
+
+  <div id="salary-slip" class="interactive-section hidden">
+    <h2>🧾 Generate Salary Slip</h2>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+      <input type="text" id="emp-name" placeholder="Employee Name" />
+      <input type="text" id="emp-id" placeholder="Employee ID" />
+      <input type="number" id="emp-salary" placeholder="Basic Salary (DPC)" />
+      <input type="number" id="emp-bonus" placeholder="Bonuses (DPC)" />
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 10px;">
+        <button onclick="generateSalarySlip()">🧾 Generate Slip</button>
+        <button onclick="downloadSlip()" id="download-btn" style="display: none;">⬇ Download Slip</button>
+      </div>
+    </div>
+    <p id="salary-slip-output" style="margin-top: 20px; font-weight: 500;"></p>
+  </div>
+
+  <footer class="hidden">
+    <p>&copy; 2025 Decentralized Payroll System. All rights reserved.</p>
+  </footer>
+
+  <script>
+    window.onload = function () {
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+        document.querySelectorAll('.hidden').forEach(el => el.classList.remove('hidden'));
+      }, 1200);
+    };
+
+    let account = "0xDummyAccount1234567890abcdef";
+    let balance = 100;
+    let isWalletConnected = false;
+
+    function connectWallet() {
+      alert("Dummy Wallet Connected: " + account);
+      isWalletConnected = true;
+      document.getElementById("send-transaction-btn").disabled = false;
+      document.getElementById("connect-wallet-btn").innerText = "Wallet Connected";
+    }
+
+    function generateHash() {
+      let name = document.getElementById("user-name").value;
+      if (name) {
+        let hash = btoa(name);
+        document.getElementById("hash-output").innerText = "Generated Hash: " + hash;
+      } else {
+        alert("Please enter your name!");
+      }
+    }
+
+    function simulatePayment() {
+      document.getElementById("payment-output").innerText = "Payroll Processed Successfully!";
+    }
+
+    function addTransaction() {
+      if (!isWalletConnected) {
+        alert("Please connect your wallet first!");
+        return;
+      }
+
+      let receiverAddress = document.getElementById("receiver-address").value;
+      let amount = parseFloat(document.getElementById("amount-input").value);
+
+      if (!receiverAddress || !amount || amount <= 0) {
+        alert("Please enter valid receiver address and amount!");
+        return;
+      }
+
+      if (amount > balance) {
+        alert("Insufficient balance!");
+        return;
+      }
+
+      const txHash = "0xDummyTransactionHash" + Math.floor(Math.random() * 1000000000);
+      balance -= amount;
+
+      document.getElementById("blockchain-output").innerHTML =
+        `Transaction Sent! <br>Receiver: ${receiverAddress} <br> Amount: ${amount} ETH <br> Tx Hash: 
+        <a href="https://sepolia.etherscan.io/tx/${txHash}" target="_blank" style="color: #82e0ff;">${txHash}</a>`;
+
+      document.getElementById("amount-input").value = '';
+      document.getElementById("receiver-address").value = '';
+    }
+
+    function showFeature(id) {
+      document.querySelectorAll('.interactive-section').forEach(el => el.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function generateSalarySlip() {
+      let name = document.getElementById("emp-name").value;
+      let id = document.getElementById("emp-id").value;
+      let salary = document.getElementById("emp-salary").value;
+      let bonus = document.getElementById("emp-bonus").value;
+
+      if (!name || !id || !salary) {
+        alert("⚠ Please fill all required fields!");
+        return;
+      }
+
+      let totalSalary = parseFloat(salary) + (bonus ? parseFloat(bonus) : 0);
+      let slipText = `✅ Salary Slip Generated!\nName: ${name}\nID: ${id}\nTotal Salary: ${totalSalary} DPC`;
+
+      document.getElementById("salary-slip-output").innerHTML = slipText.replace(/\n/g, "<br>");
+      document.getElementById("download-btn").style.display = "inline-block";
+
+      window.generatedSlip = slipText;
+    }
+
+    function downloadSlip() {
+      const blob = new Blob([window.generatedSlip], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Salary_Slip.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

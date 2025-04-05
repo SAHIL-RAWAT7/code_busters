@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Decentralized Payroll</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffffff, #1e3c72);
+      color: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .fade {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .fade.show {
+      opacity: 1;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .spinner {
+      border: 6px solid #e0e0e0;
+      border-top: 6px solid #1e3c72;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 50px 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 420px;
+      margin-top: 100px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #1e3c72;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(30, 60, 114, 0.1);
+      color: #1e3c72;
+      font-size: 16px;
+      outline: none;
+      text-align: left;
+      box-sizing: border-box;
+      transition: background 0.3s ease;
+    }
+
+    input:focus {
+      background: rgba(30, 60, 114, 0.15);
+    }
+
+    input::placeholder {
+      color: rgba(30, 60, 114, 0.5);
+    }
+
+    .button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #1e3c72, #395aa3);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(30, 60, 114, 0.25);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #395aa3, #1e3c72);
+    }
+
+    .footer {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      padding: 20px 0;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .footer.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 40px 25px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      input {
+        font-size: 15px;
+        padding: 12px 16px;
+      }
+
+      .button {
+        font-size: 15px;
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loader -->
+  <div class="loader fade show" id="loader">
+    <div class="spinner"></div>
+    <div class="loader-text">Loading, please wait...</div>
+  </div>
+
+  <!-- Login Form -->
+  <div class="container fade" id="loginForm">
+    <h1>Login</h1>
+    <form onsubmit="handleLogin(event)">
+      <input type="email" id="email" placeholder="Email Address" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" class="button">Login</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer fade" id="footer">
+    &copy; 2025 Decentralized Payroll System. All rights reserved.
+  </div>
+
+  <script>
+    window.onload = function () {
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        const form = document.getElementById("loginForm");
+        const footer = document.getElementById("footer");
+
+        loader.classList.remove("show");
+        loader.style.opacity = 0;
+
+        form.classList.add("show");
+        footer.classList.add("show");
+      }, 1000);
+    };
+
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const validUsers = {
+        "test@example.com": "password123",
+        "rahuladhikari7906@gmail.com": "rahul2005",
+        "admin@payroll.com": "admin123"
+      };
+
+      if (validUsers[email] === password) {
+        window.location.href = "dashboard.html";
+      } else {
+        alert("❌ Invalid email or password. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
